@@ -47,6 +47,8 @@
 	<true/>
 	<key>GIDClientID</key>
 	<string>694626434560-bq24dg6nhd5ltocqgdski4a0v49bevrr.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>694626434560-2ustob1vuhstsrg3evd8j3j0icsdas1f.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
