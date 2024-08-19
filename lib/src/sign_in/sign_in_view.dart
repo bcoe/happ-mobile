@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:happ_flutter/src/habits/habit.dart';
 import 'package:logging/logging.dart';
 
 import 'sign_in_button.dart';
@@ -63,6 +65,42 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> _handleSignedInUser(GoogleSignInAccount user) async {
+    final Dio dio = Dio(
+      BaseOptions(baseUrl: 'http://127.0.0.1:3000/v1'),
+    );
+
+    // // auto token update - this is untested!!!
+    // dio.interceptors.add(
+    //   InterceptorsWrapper(
+    //     // onRequest: (options, handler) {
+    //     //   // options.headers = user.authHeaders.;
+    //     // },
+    //     onError: (DioException e, handler) async {
+    //       if (e.response?.statusCode == 401) {
+    //         await _googleSignIn.signInSilently();
+    //         e.requestOptions.headers = user.authHeaders.;
+
+    //         // Repeat the request with the updated header
+    //         return handler.resolve(await dio.fetch(e.requestOptions));
+    //       }
+    //       return handler.next(e);
+    //     },
+    //   ),
+    // );
+
+    dio.options.headers = await user.authHeaders;
+    try {
+      var response = await dio.get('/habits-daily');
+      var habits = (response.data as List)
+          .map((object) => Habit.fromObject(object))
+          .toList();
+
+      logger.warning(habits);
+    } catch (error) {
+      logger.warning(error);
+    }
+
+    // logger.warning(response.data);
     context.go('/habits');
   }
 

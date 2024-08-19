@@ -7,7 +7,9 @@ import 'habit.dart';
 class HabitListView extends StatelessWidget {
   const HabitListView({
     super.key,
-    this.items = const [Habit(1), Habit(2), Habit(3)],
+    this.items = const [
+      // Habit("79sduga89u32h", "Habit 1", "1", true, "2024-08-20")
+    ],
   });
 
   static const routeName = '/habits';
