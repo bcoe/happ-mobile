@@ -20,7 +20,7 @@ final habitsProvider = AutoDisposeFutureProvider<List<Habit>>.internal(
 );
 
 typedef HabitsRef = AutoDisposeFutureProviderRef<List<Habit>>;
-String _$deleteHabitHash() => r'b163ecaafdcb5121dad35945e7d8556d460d4b38';
+String _$createHabitHash() => r'cc367ac7c83462f9301f31f486c746561b472c15';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -42,6 +42,134 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [createHabit].
+@ProviderFor(createHabit)
+const createHabitProvider = CreateHabitFamily();
+
+/// See also [createHabit].
+class CreateHabitFamily extends Family<AsyncValue<bool>> {
+  /// See also [createHabit].
+  const CreateHabitFamily();
+
+  /// See also [createHabit].
+  CreateHabitProvider call(
+    Habit habit,
+  ) {
+    return CreateHabitProvider(
+      habit,
+    );
+  }
+
+  @override
+  CreateHabitProvider getProviderOverride(
+    covariant CreateHabitProvider provider,
+  ) {
+    return call(
+      provider.habit,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'createHabitProvider';
+}
+
+/// See also [createHabit].
+class CreateHabitProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [createHabit].
+  CreateHabitProvider(
+    Habit habit,
+  ) : this._internal(
+          (ref) => createHabit(
+            ref as CreateHabitRef,
+            habit,
+          ),
+          from: createHabitProvider,
+          name: r'createHabitProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$createHabitHash,
+          dependencies: CreateHabitFamily._dependencies,
+          allTransitiveDependencies:
+              CreateHabitFamily._allTransitiveDependencies,
+          habit: habit,
+        );
+
+  CreateHabitProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.habit,
+  }) : super.internal();
+
+  final Habit habit;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(CreateHabitRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CreateHabitProvider._internal(
+        (ref) => create(ref as CreateHabitRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        habit: habit,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _CreateHabitProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CreateHabitProvider && other.habit == habit;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, habit.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CreateHabitRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `habit` of this provider.
+  Habit get habit;
+}
+
+class _CreateHabitProviderElement extends AutoDisposeFutureProviderElement<bool>
+    with CreateHabitRef {
+  _CreateHabitProviderElement(super.provider);
+
+  @override
+  Habit get habit => (origin as CreateHabitProvider).habit;
+}
+
+String _$deleteHabitHash() => r'b163ecaafdcb5121dad35945e7d8556d460d4b38';
 
 /// See also [deleteHabit].
 @ProviderFor(deleteHabit)
