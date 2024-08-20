@@ -15,15 +15,17 @@ class SignInView extends ConsumerWidget {
     }
 
     ref.listen(authenticateGoogleProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         data: (data) {
           if (data != null) {
             context.go('/habits');
-          } else {
-            _showSnackBar(
-                context, "There was an error"); // TODO smarter result handling
           }
         },
+        error: (Object error, StackTrace stackTrace) {
+          // TODO smarter result handling
+          _showSnackBar(context, "There was an error");
+        },
+        loading: () {},
       );
     });
 
@@ -41,7 +43,7 @@ class SignInView extends ConsumerWidget {
                   CustomButton(
                     text: "Sign in",
                     onPress: () {
-                      ref.read(authenticateGoogleProvider);
+                      ref.invalidate(authenticateGoogleProvider);
                     },
                   ),
                 ],
