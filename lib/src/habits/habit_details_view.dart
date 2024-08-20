@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happ_flutter/src/habits/habit.dart';
 import 'package:happ_flutter/src/habits/habit_provider.dart';
 
 class HabitDetailsView extends StatelessWidget {
@@ -17,6 +18,14 @@ class HabitDetailsView extends StatelessWidget {
           .value
           ?.firstWhere((habit) => habit.habitId == habitId);
 
+      CheckboxListTile createDayOfWeek(DayOfWeek dow) {
+        return CheckboxListTile(
+          title: Text(dow.name),
+          value: habit?.days?[dow] ?? false,
+          onChanged: (bool? value) {},
+        );
+      }
+
       return Scaffold(
         appBar: AppBar(
           title: Text(habit?.name ?? "<unknown>"),
@@ -24,15 +33,33 @@ class HabitDetailsView extends StatelessWidget {
             IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {
-                  ref.read(deleteHabitProvider(habit?.habitId));
+                  deleteAndRefreshHabits(ref, habit);
                   context.go('/habits');
                 }),
           ],
         ),
-        body: Center(
-          child: Text('This is item ${habit?.name ?? "not found"}'),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Center(
+            child: Column(
+              children: [
+                createDayOfWeek(DayOfWeek.Sun),
+                createDayOfWeek(DayOfWeek.Mon),
+                createDayOfWeek(DayOfWeek.Tue),
+                createDayOfWeek(DayOfWeek.Wed),
+                createDayOfWeek(DayOfWeek.Thu),
+                createDayOfWeek(DayOfWeek.Fri),
+                createDayOfWeek(DayOfWeek.Sat),
+              ],
+            ),
+          ),
         ),
       );
     });
+  }
+
+  Future<void> deleteAndRefreshHabits(WidgetRef ref, Habit? habit) async {
+    await ref.read(deleteHabitProvider(habit?.habitId).future);
+    ref.invalidate(habitsProvider);
   }
 }
