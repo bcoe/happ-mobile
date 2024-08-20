@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happ_flutter/src/habits/habit_details_add.dart';
 import 'package:happ_flutter/src/habits/habit_details_view.dart';
 import 'package:happ_flutter/src/habits/habit_list_view.dart';
 import 'package:happ_flutter/src/settings/settings_view.dart';
@@ -22,6 +23,10 @@ final GoRouter _router = GoRouter(
             path: 'details/:habitId',
             builder: (context, state) =>
                 HabitDetailsView(habitId: state.pathParameters['habitId']),
+          ),
+          GoRoute(
+            path: 'add',
+            builder: (context, state) => const HabitDetailsAddView(),
           ),
           GoRoute(
             path: 'settings',

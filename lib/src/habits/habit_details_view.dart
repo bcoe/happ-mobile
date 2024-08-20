@@ -5,7 +5,7 @@ import 'package:happ_flutter/src/habits/habit_provider.dart';
 class HabitDetailsView extends StatelessWidget {
   const HabitDetailsView({super.key, required this.habitId});
 
-  static const routeName = '/habitDetails';
+  static const routeName = '/habits/details';
   final String? habitId;
 
   @override
@@ -18,7 +18,7 @@ class HabitDetailsView extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Habit Details'),
+          title: Text(habit?.name ?? "<unknown>"),
         ),
         body: Center(
           child: Text('This is item ${habit?.name ?? "not found"}'),

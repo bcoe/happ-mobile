@@ -19,6 +19,11 @@ class HabitListView extends StatelessWidget {
               icon: const Icon(Icons.settings),
               onPressed: () {
                 context.go('/habits/settings');
+              }),
+          IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                context.go('/habits/add');
               })
         ]),
         body: RefreshIndicator(
