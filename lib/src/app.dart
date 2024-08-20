@@ -13,23 +13,28 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/signIn',
+      name: '/signIn',
       builder: (context, state) => const SignInView(),
     ),
     GoRoute(
         path: '/habits',
+        name: '/habits',
         builder: (context, state) => const HabitListView(),
         routes: [
           GoRoute(
             path: 'edit/:habitId',
+            name: '/habits/edit/:habitId',
             builder: (context, state) =>
                 HabitDetailsEditView(habitId: state.pathParameters['habitId']),
           ),
           GoRoute(
             path: 'add',
+            name: '/habits/add',
             builder: (context, state) => const HabitDetailsAddView(),
           ),
           GoRoute(
             path: 'settings',
+            name: '/habits/settings',
             builder: (context, state) => const SettingsView(),
           ),
         ]),
