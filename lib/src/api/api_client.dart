@@ -13,9 +13,7 @@ Future<Dio> apiClient(ApiClientRef ref) async {
     ),
   );
 
-  var authHeaders = ref
-      .read(authenticateGoogleProvider)
-      .value; // TODO this should use currentLoginProvider but doesn't work, need to listen?
+  var authHeaders = await ref.read(authenticateGoogleProvider.future);
   dio.options.headers = authHeaders;
   return dio;
 }
