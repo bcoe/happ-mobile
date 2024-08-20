@@ -13,9 +13,7 @@ Future<List<Habit>> habits(HabitsRef ref) async {
   Dio dio = await _getDio(ref);
   try {
     final response = await dio.get("/habits-daily");
-    return (response.data as List)
-        .map((object) => Habit.fromJson(object))
-        .toList();
+    return Habits.fromJson(response.data).habits;
   } on DioException catch (e) {
     Sentry.captureException(e);
     return [];

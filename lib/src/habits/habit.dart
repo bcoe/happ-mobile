@@ -4,6 +4,16 @@ part 'habit.freezed.dart';
 part 'habit.g.dart';
 
 @freezed
+class Habits with _$Habits {
+  const factory Habits({
+    @JsonKey(name: 'current_dow') required String dayOfWeek,
+    required List<Habit> habits,
+  }) = _Habits;
+
+  factory Habits.fromJson(Map<String, dynamic> json) => _$HabitsFromJson(json);
+}
+
+@freezed
 class Habit with _$Habit {
   const factory Habit({
     required String name,

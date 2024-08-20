@@ -14,6 +14,184 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Habits _$HabitsFromJson(Map<String, dynamic> json) {
+  return _Habits.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Habits {
+  @JsonKey(name: 'current_dow')
+  String get dayOfWeek => throw _privateConstructorUsedError;
+  List<Habit> get habits => throw _privateConstructorUsedError;
+
+  /// Serializes this Habits to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Habits
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $HabitsCopyWith<Habits> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HabitsCopyWith<$Res> {
+  factory $HabitsCopyWith(Habits value, $Res Function(Habits) then) =
+      _$HabitsCopyWithImpl<$Res, Habits>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'current_dow') String dayOfWeek, List<Habit> habits});
+}
+
+/// @nodoc
+class _$HabitsCopyWithImpl<$Res, $Val extends Habits>
+    implements $HabitsCopyWith<$Res> {
+  _$HabitsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Habits
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dayOfWeek = null,
+    Object? habits = null,
+  }) {
+    return _then(_value.copyWith(
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as String,
+      habits: null == habits
+          ? _value.habits
+          : habits // ignore: cast_nullable_to_non_nullable
+              as List<Habit>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$HabitsImplCopyWith<$Res> implements $HabitsCopyWith<$Res> {
+  factory _$$HabitsImplCopyWith(
+          _$HabitsImpl value, $Res Function(_$HabitsImpl) then) =
+      __$$HabitsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'current_dow') String dayOfWeek, List<Habit> habits});
+}
+
+/// @nodoc
+class __$$HabitsImplCopyWithImpl<$Res>
+    extends _$HabitsCopyWithImpl<$Res, _$HabitsImpl>
+    implements _$$HabitsImplCopyWith<$Res> {
+  __$$HabitsImplCopyWithImpl(
+      _$HabitsImpl _value, $Res Function(_$HabitsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Habits
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dayOfWeek = null,
+    Object? habits = null,
+  }) {
+    return _then(_$HabitsImpl(
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as String,
+      habits: null == habits
+          ? _value._habits
+          : habits // ignore: cast_nullable_to_non_nullable
+              as List<Habit>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$HabitsImpl implements _Habits {
+  const _$HabitsImpl(
+      {@JsonKey(name: 'current_dow') required this.dayOfWeek,
+      required final List<Habit> habits})
+      : _habits = habits;
+
+  factory _$HabitsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HabitsImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'current_dow')
+  final String dayOfWeek;
+  final List<Habit> _habits;
+  @override
+  List<Habit> get habits {
+    if (_habits is EqualUnmodifiableListView) return _habits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_habits);
+  }
+
+  @override
+  String toString() {
+    return 'Habits(dayOfWeek: $dayOfWeek, habits: $habits)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HabitsImpl &&
+            (identical(other.dayOfWeek, dayOfWeek) ||
+                other.dayOfWeek == dayOfWeek) &&
+            const DeepCollectionEquality().equals(other._habits, _habits));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, dayOfWeek, const DeepCollectionEquality().hash(_habits));
+
+  /// Create a copy of Habits
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HabitsImplCopyWith<_$HabitsImpl> get copyWith =>
+      __$$HabitsImplCopyWithImpl<_$HabitsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HabitsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Habits implements Habits {
+  const factory _Habits(
+      {@JsonKey(name: 'current_dow') required final String dayOfWeek,
+      required final List<Habit> habits}) = _$HabitsImpl;
+
+  factory _Habits.fromJson(Map<String, dynamic> json) = _$HabitsImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'current_dow')
+  String get dayOfWeek;
+  @override
+  List<Habit> get habits;
+
+  /// Create a copy of Habits
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HabitsImplCopyWith<_$HabitsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Habit _$HabitFromJson(Map<String, dynamic> json) {
   return _Habit.fromJson(json);
 }

@@ -34,10 +34,9 @@ class HabitListView extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                final posts = snapshot.data!;
-                return buildHabits(posts);
+                return buildHabits(snapshot.data!);
               } else {
-                return const Text("No data available");
+                return const Center(child: Text("No data available"));
               }
             },
           ),

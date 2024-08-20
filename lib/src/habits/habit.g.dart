@@ -6,6 +6,19 @@ part of 'habit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$HabitsImpl _$$HabitsImplFromJson(Map<String, dynamic> json) => _$HabitsImpl(
+      dayOfWeek: json['current_dow'] as String,
+      habits: (json['habits'] as List<dynamic>)
+          .map((e) => Habit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$HabitsImplToJson(_$HabitsImpl instance) =>
+    <String, dynamic>{
+      'current_dow': instance.dayOfWeek,
+      'habits': instance.habits,
+    };
+
 _$HabitImpl _$$HabitImplFromJson(Map<String, dynamic> json) => _$HabitImpl(
       name: json['name'] as String,
       habitId: json['habit_id'],
