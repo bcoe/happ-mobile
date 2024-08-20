@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:happ_flutter/src/sign_in/login_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 part 'api_client.g.dart';
 
@@ -15,5 +16,6 @@ Future<Dio> apiClient(ApiClientRef ref) async {
 
   var authHeaders = await ref.read(authenticateGoogleProvider.future);
   dio.options.headers = authHeaders;
+  dio.addSentry();
   return dio;
 }

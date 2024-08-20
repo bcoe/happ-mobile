@@ -51,7 +51,6 @@ class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
         return CheckboxListTile(
           title: Text(dow.name),
           value: days?[dow],
-          // value: habit?.days?[dow],
           onChanged: (bool? value) {
             setState(() {
               days?[dow] = value ?? false;
