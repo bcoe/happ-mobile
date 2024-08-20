@@ -23,20 +23,18 @@ class HabitListView extends StatelessWidget {
         ]),
         body: RefreshIndicator(
           onRefresh: () async => ref.refresh(habitsProvider.future),
-          child: Center(
-            child: FutureBuilder<List<Habit>>(
-              future: ref.watch(habitsProvider.future),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasData) {
-                  final posts = snapshot.data!;
-                  return buildHabits(posts);
-                } else {
-                  return const Text("No data available");
-                }
-              },
-            ),
+          child: FutureBuilder<List<Habit>>(
+            future: ref.watch(habitsProvider.future),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasData) {
+                final posts = snapshot.data!;
+                return buildHabits(posts);
+              } else {
+                return const Text("No data available");
+              }
+            },
           ),
         ),
       );
