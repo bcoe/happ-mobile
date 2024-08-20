@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:happ_flutter/src/app.dart';
@@ -12,6 +13,7 @@ void main() async {
       options.tracesSampleRate = 1.0;
       options.profilesSampleRate = 1.0;
       options.addIntegration(LoggingIntegration());
+      options.spotlight = Spotlight(enabled: kDebugMode);
       //options.enableTimeToFullDisplayTracing = true; // TODO need to add `reportFullyDisplayed()` to views
     },
     appRunner: () => runApp(ProviderScope(
