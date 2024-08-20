@@ -21,7 +21,7 @@ Habits _$HabitsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Habits {
   @JsonKey(name: 'current_dow')
-  String get dayOfWeek => throw _privateConstructorUsedError;
+  DayOfWeek get dayOfWeek => throw _privateConstructorUsedError;
   List<Habit> get habits => throw _privateConstructorUsedError;
 
   /// Serializes this Habits to a JSON map.
@@ -39,7 +39,7 @@ abstract class $HabitsCopyWith<$Res> {
       _$HabitsCopyWithImpl<$Res, Habits>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'current_dow') String dayOfWeek, List<Habit> habits});
+      {@JsonKey(name: 'current_dow') DayOfWeek dayOfWeek, List<Habit> habits});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$HabitsCopyWithImpl<$Res, $Val extends Habits>
       dayOfWeek: null == dayOfWeek
           ? _value.dayOfWeek
           : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DayOfWeek,
       habits: null == habits
           ? _value.habits
           : habits // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$HabitsImplCopyWith<$Res> implements $HabitsCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'current_dow') String dayOfWeek, List<Habit> habits});
+      {@JsonKey(name: 'current_dow') DayOfWeek dayOfWeek, List<Habit> habits});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$HabitsImplCopyWithImpl<$Res>
       dayOfWeek: null == dayOfWeek
           ? _value.dayOfWeek
           : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DayOfWeek,
       habits: null == habits
           ? _value._habits
           : habits // ignore: cast_nullable_to_non_nullable
@@ -126,7 +126,7 @@ class _$HabitsImpl implements _Habits {
 
   @override
   @JsonKey(name: 'current_dow')
-  final String dayOfWeek;
+  final DayOfWeek dayOfWeek;
   final List<Habit> _habits;
   @override
   List<Habit> get habits {
@@ -173,14 +173,14 @@ class _$HabitsImpl implements _Habits {
 
 abstract class _Habits implements Habits {
   const factory _Habits(
-      {@JsonKey(name: 'current_dow') required final String dayOfWeek,
+      {@JsonKey(name: 'current_dow') required final DayOfWeek dayOfWeek,
       required final List<Habit> habits}) = _$HabitsImpl;
 
   factory _Habits.fromJson(Map<String, dynamic> json) = _$HabitsImpl.fromJson;
 
   @override
   @JsonKey(name: 'current_dow')
-  String get dayOfWeek;
+  DayOfWeek get dayOfWeek;
   @override
   List<Habit> get habits;
 
@@ -204,6 +204,7 @@ mixin _$Habit {
   String? get id => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
+  Map<DayOfWeek, bool>? get days => throw _privateConstructorUsedError;
 
   /// Serializes this Habit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -224,7 +225,8 @@ abstract class $HabitCopyWith<$Res> {
       @JsonKey(name: 'habit_id') dynamic habitId,
       String? id,
       bool status,
-      DateTime date});
+      DateTime date,
+      Map<DayOfWeek, bool>? days});
 }
 
 /// @nodoc
@@ -247,6 +249,7 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
     Object? id = freezed,
     Object? status = null,
     Object? date = null,
+    Object? days = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -269,6 +272,10 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      days: freezed == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as Map<DayOfWeek, bool>?,
     ) as $Val);
   }
 }
@@ -285,7 +292,8 @@ abstract class _$$HabitImplCopyWith<$Res> implements $HabitCopyWith<$Res> {
       @JsonKey(name: 'habit_id') dynamic habitId,
       String? id,
       bool status,
-      DateTime date});
+      DateTime date,
+      Map<DayOfWeek, bool>? days});
 }
 
 /// @nodoc
@@ -306,6 +314,7 @@ class __$$HabitImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? status = null,
     Object? date = null,
+    Object? days = freezed,
   }) {
     return _then(_$HabitImpl(
       name: null == name
@@ -325,6 +334,10 @@ class __$$HabitImplCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      days: freezed == days
+          ? _value._days
+          : days // ignore: cast_nullable_to_non_nullable
+              as Map<DayOfWeek, bool>?,
     ));
   }
 }
@@ -337,7 +350,9 @@ class _$HabitImpl implements _Habit {
       @JsonKey(name: 'habit_id') this.habitId,
       this.id,
       required this.status,
-      required this.date});
+      required this.date,
+      final Map<DayOfWeek, bool>? days})
+      : _days = days;
 
   factory _$HabitImpl.fromJson(Map<String, dynamic> json) =>
       _$$HabitImplFromJson(json);
@@ -353,10 +368,19 @@ class _$HabitImpl implements _Habit {
   final bool status;
   @override
   final DateTime date;
+  final Map<DayOfWeek, bool>? _days;
+  @override
+  Map<DayOfWeek, bool>? get days {
+    final value = _days;
+    if (value == null) return null;
+    if (_days is EqualUnmodifiableMapView) return _days;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   @override
   String toString() {
-    return 'Habit(name: $name, habitId: $habitId, id: $id, status: $status, date: $date)';
+    return 'Habit(name: $name, habitId: $habitId, id: $id, status: $status, date: $date, days: $days)';
   }
 
   @override
@@ -368,13 +392,20 @@ class _$HabitImpl implements _Habit {
             const DeepCollectionEquality().equals(other.habitId, habitId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.date, date) || other.date == date));
+            (identical(other.date, date) || other.date == date) &&
+            const DeepCollectionEquality().equals(other._days, _days));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name,
-      const DeepCollectionEquality().hash(habitId), id, status, date);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(habitId),
+      id,
+      status,
+      date,
+      const DeepCollectionEquality().hash(_days));
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.
@@ -398,7 +429,8 @@ abstract class _Habit implements Habit {
       @JsonKey(name: 'habit_id') final dynamic habitId,
       final String? id,
       required final bool status,
-      required final DateTime date}) = _$HabitImpl;
+      required final DateTime date,
+      final Map<DayOfWeek, bool>? days}) = _$HabitImpl;
 
   factory _Habit.fromJson(Map<String, dynamic> json) = _$HabitImpl.fromJson;
 
@@ -413,6 +445,8 @@ abstract class _Habit implements Habit {
   bool get status;
   @override
   DateTime get date;
+  @override
+  Map<DayOfWeek, bool>? get days;
 
   /// Create a copy of Habit
   /// with the given fields replaced by the non-null parameter values.

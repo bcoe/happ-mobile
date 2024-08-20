@@ -48,7 +48,8 @@ class _MyCustomFormState extends State<StatefulWidget> {
                       ref.read(CreateHabitProvider(Habit(
                           name: myController.text,
                           status: true,
-                          date: DateTime.now())));
+                          date: DateTime.now(),
+                          days: {/* TODO */})));
                       ref.invalidate(habitsProvider);
                       context.go('/habits');
                     })
