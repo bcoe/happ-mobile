@@ -33,6 +33,19 @@ Future<bool> createHabit(CreateHabitRef ref, Habit habit) async {
 }
 
 @riverpod
+Future<bool> updateHabit(UpdateHabitRef ref, Habit habit) async {
+  Dio dio = await _getDio(ref);
+  try {
+    final response =
+        await dio.put("/habits/${habit.habitId}", data: habit.toJson());
+    return response.statusCode == 200;
+  } on DioException catch (e) {
+    Sentry.captureException(e);
+    return false;
+  }
+}
+
+@riverpod
 Future<bool> deleteHabit(DeleteHabitRef ref, String habitId) async {
   Dio dio = await _getDio(ref);
   try {

@@ -58,12 +58,12 @@ class HabitListView extends StatelessWidget {
 
   ListTile buildHabitItem(Habit habit, BuildContext context) {
     return ListTile(
-        title: Text('Habit ${habit.name}'),
+        title: Text(habit.name),
         leading: const CircleAvatar(
-          foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+          foregroundImage: AssetImage('assets/images/flutter_logo.png'), // TODO
         ),
         onTap: () {
-          context.go('/habits/details/${habit.habitId}');
+          context.go('/habits/edit/${habit.habitId}');
         });
   }
 }

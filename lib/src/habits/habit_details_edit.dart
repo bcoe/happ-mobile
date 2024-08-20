@@ -5,17 +5,18 @@ import 'package:happ_flutter/src/habits/habit.dart';
 import 'package:happ_flutter/src/habits/habit_provider.dart';
 import 'package:happ_flutter/src/widgets/custom_button.dart';
 
-class HabitDetailsAddView extends ConsumerStatefulWidget {
-  const HabitDetailsAddView({super.key});
+class HabitDetailsEditView extends ConsumerStatefulWidget {
+  const HabitDetailsEditView({super.key, required this.habitId});
 
-  static const routeName = '/habits/add';
+  static const routeName = '/habits/edit/';
+  final String? habitId;
 
   @override
-  AddHabitViewState createState() => AddHabitViewState();
+  EditHabitViewState createState() => EditHabitViewState();
 }
 
-class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
-  final textEditingController = TextEditingController();
+class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
+  late TextEditingController textEditingController;
 
   Map<DayOfWeek, bool>? days = {
     DayOfWeek.Sun: false,
@@ -35,6 +36,15 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
 
   @override
   Widget build(BuildContext context) {
+    var habit = ref
+        .read(habitsProvider)
+        .value
+        ?.firstWhere((habit) => habit.habitId == widget.habitId);
+
+    habit?.days?.forEach((k, v) => days?[k] = v);
+
+    textEditingController = TextEditingController(text: habit?.name);
+
     StatefulBuilder createDayOfWeek(DayOfWeek dow) {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
@@ -51,19 +61,28 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
       });
     }
 
-    Future<void> addAndRefreshHabits(WidgetRef ref) async {
-      await ref.read(createHabitProvider(Habit(
-              name: textEditingController.text,
-              status: false,
-              date: DateTime.now(),
-              days: days))
-          .future);
+    Future<void> updateAndRefreshHabits(WidgetRef ref) async {
+      habit = habit?.copyWith(name: textEditingController.text, days: days);
+      await ref.read(updateHabitProvider(habit!).future);
+      ref.invalidate(habitsProvider);
+    }
+
+    Future<void> deleteAndRefreshHabits(WidgetRef ref, Habit? habit) async {
+      await ref.read(deleteHabitProvider(habit?.habitId).future);
       ref.invalidate(habitsProvider);
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add a new Habit'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () async {
+                await deleteAndRefreshHabits(ref, habit);
+                context.go('/habits');
+              }),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -74,7 +93,6 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
                 controller: textEditingController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Which habit do you want to track?',
                 ),
               ),
               createDayOfWeek(DayOfWeek.Sun),
@@ -85,9 +103,9 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
               createDayOfWeek(DayOfWeek.Fri),
               createDayOfWeek(DayOfWeek.Sat),
               CustomButton(
-                  text: "Add",
+                  text: "Update",
                   onPress: () async {
-                    await addAndRefreshHabits(ref);
+                    await updateAndRefreshHabits(ref);
                     context.go('/habits');
                   })
             ],
