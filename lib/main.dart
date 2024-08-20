@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:happ_flutter/src/app.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
@@ -13,9 +14,10 @@ void main() async {
       options.addIntegration(LoggingIntegration());
       //options.enableTimeToFullDisplayTracing = true; // TODO need to add `reportFullyDisplayed()` to views
     },
-    appRunner: () => runApp(DefaultAssetBundle(
+    appRunner: () => runApp(ProviderScope(
+        child: DefaultAssetBundle(
       bundle: SentryAssetBundle(),
       child: const MyApp(),
-    )),
+    ))),
   );
 }

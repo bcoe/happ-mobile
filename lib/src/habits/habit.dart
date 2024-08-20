@@ -1,21 +1,17 @@
-class Habit {
-  const Habit(
-      {required this.name,
-      required this.habitId,
-      required this.id,
-      required this.status,
-      required this.date});
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String name;
-  final String habitId;
-  final String? id;
-  final bool status;
-  final DateTime date;
+part 'habit.freezed.dart';
+part 'habit.g.dart';
 
-  static fromObject(object) => Habit(
-      name: object['name'],
-      habitId: object['habit_id'],
-      id: object['id'],
-      status: object['status'],
-      date: DateTime.parse(object['date'] as String));
+@freezed
+class Habit with _$Habit {
+  const factory Habit({
+    required String name,
+    @JsonKey(name: 'habit_id') habitId,
+    String? id,
+    required bool status,
+    required DateTime date,
+  }) = _Habit;
+
+  factory Habit.fromJson(Map<String, dynamic> json) => _$HabitFromJson(json);
 }

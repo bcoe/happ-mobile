@@ -1,65 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happ_flutter/src/habits/habit_provider.dart';
 
 import 'habit.dart';
 
-/// Displays a list of SampleItems.
 class HabitListView extends StatelessWidget {
-  const HabitListView({
-    super.key,
-    this.items = const [
-      // Habit("79sduga89u32h", "Habit 1", "1", true, "2024-08-20")
-    ],
-  });
+  const HabitListView({super.key});
 
   static const routeName = '/habits';
 
-  final List<Habit> items;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Habits'),
-        actions: [
+    return Consumer(builder: (context, ref, child) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Habits'), actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
-              // Navigator.restorablePushNamed(context, SettingsView.routeName);
-              context.go('/habits/settings');
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                context.go('/habits/settings');
+              })
+        ]),
+        body: Center(
+          child: FutureBuilder<List<Habit>>(
+            future: ref.watch(habitsProvider.future),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasData) {
+                final posts = snapshot.data!;
+                return buildHabits(posts);
+              } else {
+                return const Text("No data available");
+              }
             },
           ),
-        ],
-      ),
+        ),
+      );
+    });
+  }
 
-      // To work with lists that may contain a large number of items, it’s best
-      // to use the ListView.builder constructor.
-      //
-      // In contrast to the default ListView constructor, which requires
-      // building all Widgets up front, the ListView.builder constructor lazily
-      // builds Widgets as they’re scrolled into view.
-      body: ListView.builder(
-        // Providing a restorationId allows the ListView to restore the
-        // scroll position when a user leaves and returns to the app after it
-        // has been killed while running in the background.
-        restorationId: 'habitsListView',
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
-
-          return ListTile(
-              title: Text('Habit ${item.id}'),
-              leading: const CircleAvatar(
-                foregroundImage: AssetImage('assets/images/flutter_logo.png'),
-              ),
-              onTap: () {
-                context.go('/habits/details/${item.id}');
-              });
-        },
-      ),
+  Widget buildHabits(List<Habit> habits) {
+    return ListView.builder(
+      restorationId: 'habitsListView',
+      itemCount: habits.length,
+      itemBuilder: (BuildContext context, int index) {
+        final habit = habits[index];
+        return buildHabitItem(habit, context);
+      },
     );
+  }
+
+  ListTile buildHabitItem(Habit habit, BuildContext context) {
+    return ListTile(
+        title: Text('Habit ${habit.name}'),
+        leading: const CircleAvatar(
+          foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+        ),
+        onTap: () {
+          context.go('/habits/details/${habit.habitId}');
+        });
   }
 }
