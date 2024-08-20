@@ -16,15 +16,15 @@ class HabitListView extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(title: const Text('Habits'), actions: [
           IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                context.go('/habits/add');
+              }),
+          IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
                 context.go('/habits/settings');
               }),
-          IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                context.go('/habits/add');
-              })
         ]),
         body: RefreshIndicator(
           onRefresh: () async => ref.refresh(habitsProvider.future),
