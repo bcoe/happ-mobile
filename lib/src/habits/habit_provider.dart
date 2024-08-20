@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:happ_flutter/src/dependencies.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:happ_flutter/src/clients/api_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'habit.dart';
 
@@ -8,17 +10,30 @@ part 'habit_provider.g.dart';
 
 @riverpod
 Future<List<Habit>> habits(HabitsRef ref) async {
-  var dio = Dio(
-    BaseOptions(
-      baseUrl: "http://127.0.0.1:3000/v1", //Endpoints.baseURL, TODO
-      responseType: ResponseType.json,
-    ),
-  );
-  var authHeaders =
-      await ref.read(loginRepositoryProvider).authenticateGoogle();
-  dio.options.headers = authHeaders; // TODO get auth token from somewhere
-  final response = await dio.get("/habits-daily");
-  return (response.data as List)
-      .map((object) => Habit.fromJson(object))
-      .toList();
+  Dio dio = await _getDio(ref);
+  try {
+    final response = await dio.get("/habits-daily");
+    return (response.data as List)
+        .map((object) => Habit.fromJson(object))
+        .toList();
+  } on DioException catch (e) {
+    Sentry.captureException(e);
+    return [];
+  }
+}
+
+@riverpod
+Future<bool> deleteHabit(DeleteHabitRef ref, String habitId) async {
+  Dio dio = await _getDio(ref);
+  try {
+    final response = await dio.delete("/habits/$habitId");
+    return response.statusCode == 200;
+  } on DioException catch (e) {
+    Sentry.captureException(e);
+    return false;
+  }
+}
+
+Future<Dio> _getDio(Ref ref) async {
+  return ref.read(apiClientProvider.future);
 }

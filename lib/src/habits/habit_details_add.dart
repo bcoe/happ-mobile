@@ -13,7 +13,7 @@ class HabitDetailsAddView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Habit Add'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('TODO'),
         ),
       );
