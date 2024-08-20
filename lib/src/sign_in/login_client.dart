@@ -31,3 +31,9 @@ Future<Map<String, String>?> authenticateGoogle(
     rethrow;
   }
 }
+
+@riverpod
+Future<Map<String, String>?> logout(LogoutRef ref) async {
+  await googleSignIn.signOut();
+  return null;
+}
