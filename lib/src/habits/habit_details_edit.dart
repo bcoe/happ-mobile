@@ -37,9 +37,10 @@ class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
   @override
   Widget build(BuildContext context) {
     var habit = ref
-        .read(habitsProvider)
+        .read(habitsDailyProvider)
         .value
-        ?.firstWhere((habit) => habit.habitId == widget.habitId);
+        ?.habits
+        .firstWhere((habit) => habit.habitId == widget.habitId);
 
     habit?.days?.forEach((k, v) => days?[k] = v);
 
@@ -63,17 +64,17 @@ class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
     Future<void> updateAndRefreshHabits(WidgetRef ref) async {
       habit = habit?.copyWith(name: textEditingController.text, days: days);
       await ref.read(updateHabitProvider(habit!).future);
-      ref.invalidate(habitsProvider);
+      ref.invalidate(habitsDailyProvider);
     }
 
     Future<void> deleteAndRefreshHabits(WidgetRef ref, Habit? habit) async {
       await ref.read(deleteHabitProvider(habit?.habitId).future);
-      ref.invalidate(habitsProvider);
+      ref.invalidate(habitsDailyProvider);
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new Habit'),
+        title: const Text('Update a habit'),
         actions: [
           IconButton(
               icon: const Icon(Icons.delete),

@@ -9,14 +9,14 @@ import 'habit.dart';
 part 'habit_provider.g.dart';
 
 @riverpod
-Future<List<Habit>> habits(HabitsRef ref) async {
+Future<Habits?> habitsDaily(HabitsDailyRef ref) async {
   Dio dio = await _getDio(ref);
   try {
     final response = await dio.get("/habits-daily");
-    return Habits.fromJson(response.data).habits;
+    return Habits.fromJson(response.data);
   } on DioException catch (e) {
     Sentry.captureException(e);
-    return [];
+    return null;
   }
 }
 

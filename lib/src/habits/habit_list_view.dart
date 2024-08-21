@@ -11,7 +11,13 @@ class HabitListView extends StatelessWidget {
 
   static const routeName = '/habits';
 
-  Future<void> deleteAndRefreshHabits(WidgetRef ref, Habit habit) async {
+  Future<void> completeHabit(WidgetRef ref, Habit habit) async {
+    habit = habit.copyWith(status: true, date: DateTime.now());
+    await ref.read(updateHabitProvider(habit).future);
+    ref.invalidate(habitsDailyProvider);
+  }
+
+  Future<void> deleteHabit(WidgetRef ref, Habit habit) async {
     await ref.read(deleteHabitProvider(habit.habitId).future);
   }
 
@@ -35,14 +41,14 @@ class HabitListView extends StatelessWidget {
                   }),
             ]),
         body: RefreshIndicator(
-          onRefresh: () async => ref.refresh(habitsProvider.future),
-          child: FutureBuilder<List<Habit>>(
-            future: ref.watch(habitsProvider.future),
+          onRefresh: () async => ref.refresh(habitsDailyProvider.future),
+          child: FutureBuilder<Habits?>(
+            future: ref.watch(habitsDailyProvider.future),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                return buildHabits(snapshot.data!, ref);
+                return buildHabits(snapshot.data!.habits, ref);
               } else {
                 return const Center(child: Text("No data available"));
               }
@@ -68,18 +74,56 @@ class HabitListView extends StatelessWidget {
     return Dismissible(
       key: Key(habit.habitId),
       onDismissed: (direction) {
-        deleteAndRefreshHabits(ref, habit);
+        // primary
+        if (direction == DismissDirection.startToEnd) {
+          completeHabit(ref, habit);
+        }
+        // secondary
+        if (direction == DismissDirection.endToStart) {
+          deleteHabit(ref, habit);
+        }
       },
-      background: Container(color: Colors.red),
+      background: Container(
+        color: Colors.blue,
+        padding: const EdgeInsets.only(left: 20.0),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              Icons.done,
+            )
+          ],
+        ),
+      ),
+      secondaryBackground: Container(
+        color: Colors.red,
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+            )
+          ],
+        ),
+      ),
       child: ListTile(
           title: Text(habit.name),
-          leading: const CircleAvatar(
-            foregroundImage:
-                AssetImage('assets/images/flutter_logo.png'), // TODO
-          ),
+          leading: Icon(iconForHabit(habit, ref)),
           onTap: () {
             context.go('/habits/edit/${habit.habitId}');
           }),
     );
+  }
+
+  IconData iconForHabit(Habit habit, WidgetRef ref) {
+    var currentDayOfWeek = ref.read(habitsDailyProvider).value?.dayOfWeek;
+    if (currentDayOfWeek == null || habit.days == null) {
+      return Icons.error;
+    }
+    if ((habit.days?[currentDayOfWeek] ?? false) == false) {
+      return Icons.abc;
+    }
+    return habit.status ? Icons.done : Icons.today;
   }
 }

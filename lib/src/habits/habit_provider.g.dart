@@ -6,20 +6,20 @@ part of 'habit_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$habitsHash() => r'17699c9d3ec4c079739ef7c984d5bd27df9af6f8';
+String _$habitsDailyHash() => r'31468dc518aa886396c01fdb805f8b1eb6db2dfd';
 
-/// See also [habits].
-@ProviderFor(habits)
-final habitsProvider = AutoDisposeFutureProvider<List<Habit>>.internal(
-  habits,
-  name: r'habitsProvider',
+/// See also [habitsDaily].
+@ProviderFor(habitsDaily)
+final habitsDailyProvider = AutoDisposeFutureProvider<Habits?>.internal(
+  habitsDaily,
+  name: r'habitsDailyProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$habitsHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$habitsDailyHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HabitsRef = AutoDisposeFutureProviderRef<List<Habit>>;
+typedef HabitsDailyRef = AutoDisposeFutureProviderRef<Habits?>;
 String _$createHabitHash() => r'cc367ac7c83462f9301f31f486c746561b472c15';
 
 /// Copied from Dart SDK

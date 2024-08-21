@@ -41,7 +41,6 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
         return CheckboxListTile(
           title: Text(dow.name),
           value: days?[dow],
-          // value: habit?.days?[dow],
           onChanged: (bool? value) {
             setState(() {
               days?[dow] = value ?? false;
@@ -54,11 +53,11 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
     Future<void> addAndRefreshHabits(WidgetRef ref) async {
       await ref.read(createHabitProvider(Habit(
               name: textEditingController.text,
-              status: false,
+              status: true,
               date: DateTime.now(),
               days: days))
           .future);
-      ref.invalidate(habitsProvider);
+      ref.invalidate(habitsDailyProvider);
     }
 
     return Scaffold(
