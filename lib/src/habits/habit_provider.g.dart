@@ -169,7 +169,7 @@ class _CreateHabitProviderElement extends AutoDisposeFutureProviderElement<bool>
   Habit get habit => (origin as CreateHabitProvider).habit;
 }
 
-String _$updateHabitHash() => r'83f95a54cf47fcd81a038dd83ed8828e179831b6';
+String _$updateHabitHash() => r'89b30dddde9a2a93d98a56e6f88de0c1f22cbc4d';
 
 /// See also [updateHabit].
 @ProviderFor(updateHabit)
