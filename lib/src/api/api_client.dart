@@ -9,7 +9,8 @@ part 'api_client.g.dart';
 Future<Dio> apiClient(ApiClientRef ref) async {
   var dio = Dio(
     BaseOptions(
-      baseUrl: "http://127.0.0.1:3000/v1",
+      // baseUrl: "http://127.0.0.1:3000/v1", // enable for building locally
+      baseUrl: "https://habittrack.me/v1",
       responseType: ResponseType.json,
     ),
   );

@@ -65,7 +65,7 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
         title: const Text('Add a new Habit'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
         child: Center(
           child: Column(
             children: [
@@ -76,13 +76,19 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
                   hintText: 'Which Habit do you want to track?',
                 ),
               ),
-              createDayOfWeek(DayOfWeek.Sun),
-              createDayOfWeek(DayOfWeek.Mon),
-              createDayOfWeek(DayOfWeek.Tue),
-              createDayOfWeek(DayOfWeek.Wed),
-              createDayOfWeek(DayOfWeek.Thu),
-              createDayOfWeek(DayOfWeek.Fri),
-              createDayOfWeek(DayOfWeek.Sat),
+              Expanded(
+                child: ListView(
+                  children: [
+                    createDayOfWeek(DayOfWeek.Sun),
+                    createDayOfWeek(DayOfWeek.Mon),
+                    createDayOfWeek(DayOfWeek.Tue),
+                    createDayOfWeek(DayOfWeek.Wed),
+                    createDayOfWeek(DayOfWeek.Thu),
+                    createDayOfWeek(DayOfWeek.Fri),
+                    createDayOfWeek(DayOfWeek.Sat),
+                  ],
+                ),
+              ),
               CustomButton(
                   text: "Add",
                   onPress: () async {

@@ -75,7 +75,6 @@ class HabitListView extends StatelessWidget {
   Dismissible buildHabitItem(Habit habit, BuildContext context, WidgetRef ref) {
     return Dismissible(
       key: Key(habit.habitId),
-      resizeDuration: const Duration(milliseconds: 50),
       confirmDismiss: (DismissDirection direction) async {
         if (direction == DismissDirection.startToEnd) {
           return isHabitActiveToday(habit, ref);

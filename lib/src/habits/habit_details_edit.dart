@@ -85,7 +85,7 @@ class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
         child: Center(
           child: Column(
             children: [
@@ -95,13 +95,19 @@ class EditHabitViewState extends ConsumerState<HabitDetailsEditView> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              createDayOfWeek(DayOfWeek.Sun),
-              createDayOfWeek(DayOfWeek.Mon),
-              createDayOfWeek(DayOfWeek.Tue),
-              createDayOfWeek(DayOfWeek.Wed),
-              createDayOfWeek(DayOfWeek.Thu),
-              createDayOfWeek(DayOfWeek.Fri),
-              createDayOfWeek(DayOfWeek.Sat),
+              Expanded(
+                child: ListView(
+                  children: [
+                    createDayOfWeek(DayOfWeek.Sun),
+                    createDayOfWeek(DayOfWeek.Mon),
+                    createDayOfWeek(DayOfWeek.Tue),
+                    createDayOfWeek(DayOfWeek.Wed),
+                    createDayOfWeek(DayOfWeek.Thu),
+                    createDayOfWeek(DayOfWeek.Fri),
+                    createDayOfWeek(DayOfWeek.Sat),
+                  ],
+                ),
+              ),
               CustomButton(
                   text: "Update",
                   onPress: () async {
