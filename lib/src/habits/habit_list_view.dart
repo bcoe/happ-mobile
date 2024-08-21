@@ -73,26 +73,55 @@ class HabitListView extends StatelessWidget {
   Dismissible buildHabitItem(Habit habit, BuildContext context, WidgetRef ref) {
     return Dismissible(
       key: Key(habit.habitId),
+      resizeDuration: const Duration(milliseconds: 50),
+      confirmDismiss: (DismissDirection direction) async {
+        if (direction == DismissDirection.startToEnd) {
+          return isHabitActiveToday(habit, ref);
+        }
+        if (direction == DismissDirection.endToStart) {
+          return await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Confirm"),
+                content:
+                    const Text("Are you sure you wish to delete this item?"),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: const Text("DELETE")),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text("CANCEL"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
       onDismissed: (direction) {
-        // primary
         if (direction == DismissDirection.startToEnd) {
           completeHabit(ref, habit);
         }
-        // secondary
         if (direction == DismissDirection.endToStart) {
           deleteHabit(ref, habit);
         }
       },
       background: Container(
-        color: Colors.blue,
+        color: isHabitActiveToday(habit, ref)
+            ? (habit.status ? Colors.blue : Colors.green)
+            : Colors.transparent,
         padding: const EdgeInsets.only(left: 20.0),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Icon(
-              Icons.done,
-            )
-          ],
+          children: isHabitActiveToday(habit, ref)
+              ? <Widget>[
+                  Icon(
+                    habit.status ? Icons.timer_outlined : Icons.done,
+                  )
+                ]
+              : [],
         ),
       ),
       secondaryBackground: Container(
@@ -117,13 +146,15 @@ class HabitListView extends StatelessWidget {
   }
 
   IconData iconForHabit(Habit habit, WidgetRef ref) {
-    var currentDayOfWeek = ref.read(habitsDailyProvider).value?.dayOfWeek;
-    if (currentDayOfWeek == null || habit.days == null) {
-      return Icons.error;
-    }
-    if ((habit.days?[currentDayOfWeek] ?? false) == false) {
+    if (!isHabitActiveToday(habit, ref)) {
       return Icons.calendar_today;
     }
+
     return habit.status ? Icons.done : Icons.timer_outlined;
+  }
+
+  bool isHabitActiveToday(Habit habit, WidgetRef ref) {
+    var currentDayOfWeek = ref.read(habitsDailyProvider).value?.dayOfWeek;
+    return habit.days?[currentDayOfWeek] ?? false;
   }
 }
