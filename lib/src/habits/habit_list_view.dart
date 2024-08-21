@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happ_flutter/src/habits/habit_provider.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,8 @@ class HabitListView extends StatelessWidget {
   Future<void> completeHabit(WidgetRef ref, Habit habit) async {
     habit = habit.copyWith(status: !habit.status, date: DateTime.now());
     await ref.read(updateHabitStatusProvider(habit).future);
+
+    // TODO this causes a somewhat ugly refresh but it's necessary since dismissing per default removes the item from the list
     ref.invalidate(habitsDailyProvider);
   }
 
@@ -48,7 +51,7 @@ class HabitListView extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                return buildHabits(snapshot.data!.habits, ref);
+                return buildHabits(sortHabits(snapshot.data!.habits, ref), ref);
               } else {
                 return const Center(child: Text("No data available"));
               }
@@ -116,11 +119,7 @@ class HabitListView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: isHabitActiveToday(habit, ref)
-              ? <Widget>[
-                  Icon(
-                    habit.status ? Icons.timer_outlined : Icons.done,
-                  )
-                ]
+              ? <Widget>[Icon(habit.status ? Icons.timer_outlined : Icons.done)]
               : [],
         ),
       ),
@@ -137,7 +136,12 @@ class HabitListView extends StatelessWidget {
         ),
       ),
       child: ListTile(
+          tileColor: isHabitActiveToday(habit, ref)
+              ? (habit.status ? Colors.green : Colors.blue)
+              : Colors.transparent,
           title: Text(habit.name),
+          textColor:
+              isHabitActiveToday(habit, ref) ? Colors.black : Colors.black54,
           leading: Icon(iconForHabit(habit, ref)),
           onTap: () {
             context.go('/habits/edit/${habit.habitId}');
@@ -156,5 +160,25 @@ class HabitListView extends StatelessWidget {
   bool isHabitActiveToday(Habit habit, WidgetRef ref) {
     var currentDayOfWeek = ref.read(habitsDailyProvider).value?.dayOfWeek;
     return habit.days?[currentDayOfWeek] ?? false;
+  }
+
+  List<Habit> sortHabits(List<Habit> habits, WidgetRef ref) {
+    var sortedHabits = List<Habit>.from(habits);
+    sortedHabits.sort((a, b) {
+      if (isHabitActiveToday(a, ref) && !isHabitActiveToday(b, ref)) {
+        return 0;
+      }
+      if (!isHabitActiveToday(a, ref) && isHabitActiveToday(b, ref)) {
+        return 1;
+      }
+      if (!a.status && b.status) {
+        return 0;
+      }
+      if (a.status && !b.status) {
+        return 1;
+      }
+      return (a.name.compareTo(b.name));
+    });
+    return sortedHabits;
   }
 }
