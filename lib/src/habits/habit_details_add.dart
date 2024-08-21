@@ -73,7 +73,7 @@ class AddHabitViewState extends ConsumerState<HabitDetailsAddView> {
                 controller: textEditingController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Which habit do you want to track?',
+                  hintText: 'Which Habit do you want to track?',
                 ),
               ),
               createDayOfWeek(DayOfWeek.Sun),
