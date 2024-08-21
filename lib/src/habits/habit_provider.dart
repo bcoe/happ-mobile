@@ -37,7 +37,19 @@ Future<bool> updateHabit(UpdateHabitRef ref, Habit habit) async {
   Dio dio = await _getDio(ref);
   try {
     final response =
-        await dio.put("/habits/${habit.habitId}", data: habit.toJson());
+        await dio.put("/habits-daily/${habit.habitId}", data: habit.toJson());
+    return response.statusCode == 200;
+  } on DioException catch (e) {
+    Sentry.captureException(e);
+    return false;
+  }
+}
+
+@riverpod
+Future<bool> updateHabitStatus(UpdateHabitStatusRef ref, Habit habit) async {
+  Dio dio = await _getDio(ref);
+  try {
+    final response = await dio.post("/habits-daily", data: habit.toJson());
     return response.statusCode == 200;
   } on DioException catch (e) {
     Sentry.captureException(e);

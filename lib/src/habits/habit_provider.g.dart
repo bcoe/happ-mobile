@@ -169,7 +169,7 @@ class _CreateHabitProviderElement extends AutoDisposeFutureProviderElement<bool>
   Habit get habit => (origin as CreateHabitProvider).habit;
 }
 
-String _$updateHabitHash() => r'89b30dddde9a2a93d98a56e6f88de0c1f22cbc4d';
+String _$updateHabitHash() => r'83f95a54cf47fcd81a038dd83ed8828e179831b6';
 
 /// See also [updateHabit].
 @ProviderFor(updateHabit)
@@ -295,6 +295,134 @@ class _UpdateHabitProviderElement extends AutoDisposeFutureProviderElement<bool>
 
   @override
   Habit get habit => (origin as UpdateHabitProvider).habit;
+}
+
+String _$updateHabitStatusHash() => r'b1563b752f8524116d793471ad6b69d63e68fb80';
+
+/// See also [updateHabitStatus].
+@ProviderFor(updateHabitStatus)
+const updateHabitStatusProvider = UpdateHabitStatusFamily();
+
+/// See also [updateHabitStatus].
+class UpdateHabitStatusFamily extends Family<AsyncValue<bool>> {
+  /// See also [updateHabitStatus].
+  const UpdateHabitStatusFamily();
+
+  /// See also [updateHabitStatus].
+  UpdateHabitStatusProvider call(
+    Habit habit,
+  ) {
+    return UpdateHabitStatusProvider(
+      habit,
+    );
+  }
+
+  @override
+  UpdateHabitStatusProvider getProviderOverride(
+    covariant UpdateHabitStatusProvider provider,
+  ) {
+    return call(
+      provider.habit,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'updateHabitStatusProvider';
+}
+
+/// See also [updateHabitStatus].
+class UpdateHabitStatusProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [updateHabitStatus].
+  UpdateHabitStatusProvider(
+    Habit habit,
+  ) : this._internal(
+          (ref) => updateHabitStatus(
+            ref as UpdateHabitStatusRef,
+            habit,
+          ),
+          from: updateHabitStatusProvider,
+          name: r'updateHabitStatusProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$updateHabitStatusHash,
+          dependencies: UpdateHabitStatusFamily._dependencies,
+          allTransitiveDependencies:
+              UpdateHabitStatusFamily._allTransitiveDependencies,
+          habit: habit,
+        );
+
+  UpdateHabitStatusProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.habit,
+  }) : super.internal();
+
+  final Habit habit;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(UpdateHabitStatusRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: UpdateHabitStatusProvider._internal(
+        (ref) => create(ref as UpdateHabitStatusRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        habit: habit,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _UpdateHabitStatusProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UpdateHabitStatusProvider && other.habit == habit;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, habit.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin UpdateHabitStatusRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `habit` of this provider.
+  Habit get habit;
+}
+
+class _UpdateHabitStatusProviderElement
+    extends AutoDisposeFutureProviderElement<bool> with UpdateHabitStatusRef {
+  _UpdateHabitStatusProviderElement(super.provider);
+
+  @override
+  Habit get habit => (origin as UpdateHabitStatusProvider).habit;
 }
 
 String _$deleteHabitHash() => r'b163ecaafdcb5121dad35945e7d8556d460d4b38';

@@ -12,8 +12,8 @@ class HabitListView extends StatelessWidget {
   static const routeName = '/habits';
 
   Future<void> completeHabit(WidgetRef ref, Habit habit) async {
-    habit = habit.copyWith(status: true, date: DateTime.now());
-    await ref.read(updateHabitProvider(habit).future);
+    habit = habit.copyWith(status: !habit.status, date: DateTime.now());
+    await ref.read(updateHabitStatusProvider(habit).future);
     ref.invalidate(habitsDailyProvider);
   }
 
@@ -122,8 +122,8 @@ class HabitListView extends StatelessWidget {
       return Icons.error;
     }
     if ((habit.days?[currentDayOfWeek] ?? false) == false) {
-      return Icons.abc;
+      return Icons.calendar_today;
     }
-    return habit.status ? Icons.done : Icons.today;
+    return habit.status ? Icons.done : Icons.timer_outlined;
   }
 }
