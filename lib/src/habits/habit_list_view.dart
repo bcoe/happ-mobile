@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happ_flutter/src/api/notes/note_provider.dart';
 import 'package:happ_flutter/src/habits/habit_provider.dart';
+import 'package:happ_flutter/src/notes/note_provider.dart';
 import 'package:intl/intl.dart';
 
 import 'habit.dart';

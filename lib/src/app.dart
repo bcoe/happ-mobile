@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happ_flutter/src/api/notes/notes_view.dart';
 import 'package:happ_flutter/src/habits/habit_details_add.dart';
 import 'package:happ_flutter/src/habits/habit_details_edit.dart';
 import 'package:happ_flutter/src/habits/habit_list_view.dart';
+import 'package:happ_flutter/src/notes/notes_view.dart';
 import 'package:happ_flutter/src/settings/settings_view.dart';
 import 'package:happ_flutter/src/sign_in/sign_in_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';

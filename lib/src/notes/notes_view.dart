@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happ_flutter/src/api/notes/note.dart';
-import 'package:happ_flutter/src/api/notes/note_provider.dart';
+import 'package:happ_flutter/src/notes/note.dart';
+import 'package:happ_flutter/src/notes/note_provider.dart';
 import 'package:happ_flutter/src/widgets/custom_button.dart';
 
 class NotesView extends ConsumerStatefulWidget {
