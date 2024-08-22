@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happ_flutter/src/api/notes/notes_view.dart';
 import 'package:happ_flutter/src/habits/habit_details_add.dart';
 import 'package:happ_flutter/src/habits/habit_details_edit.dart';
 import 'package:happ_flutter/src/habits/habit_list_view.dart';
@@ -36,6 +37,11 @@ final GoRouter _router = GoRouter(
             path: 'settings',
             name: '/habits/settings',
             builder: (context, state) => const SettingsView(),
+          ),
+          GoRoute(
+            path: 'notes',
+            name: '/habits/notes',
+            builder: (context, state) => const NotesView(),
           ),
         ]),
   ],
